@@ -44,6 +44,19 @@ lista *initlist()
 
 int isempty(lista *L)
 {return  (L->length==0);}
+int showmeplease(lista *L)
+{cout<<endl;
+    if(isempty(L))
+    {
+        cout<<"Lista vida..."<<endl;
+        return 0;
+    }
+    termen *carrier = new termen;
+    carrier=L->start;
+    int counter=L->length;
+    while (counter>0) { cout<<carrier->info<<" "; carrier=carrier->next;
+        counter--; }
+}
 lista *addleft(lista*L, int value)
 {
     if (isempty(L)){
@@ -131,35 +144,28 @@ lista *delright(lista *L) {
 }
 lista *delleft(lista *L)
 {
-    if(L->current != L->start && L->start->next->next != L->finalist)
+    if(L->current != L->start)
     {
-        element *carrier = new element;
-        element *further = new element;
-        further = L->start;
-        carrier = L->start;
-        while(carrier->next != L->current)
+        if(L->start->next != L->current)
         {
-            carrier = carrier->next;
+            //showmeplease(L);
+            termen *previous = new termen;
+            previous = L->start;
+            while(previous->next->next != L->current)
+            {
+                previous = previous->next;
+            }
+            //showmeplease(L);
+            previous->next = NULL;
+            previous->next = L->current;
         }
-        while(further->next != carrier)
+        //showmeplease(L);
+        else if(L->start->next = L->current)
         {
-            further = further->next;
+            L->start = NULL;
+            L->start = L->current;
         }
-        further->next = L->current;
         L->length--;
-        return L;
-    }
-    else if(L->start->next->next == L->current)
-    {
-        L->start->next = L->current;
-        L->length--;
-        return L;
-    }
-    else if(L->start->next == L->current)
-    {
-        L->start = L->current;
-        L->length--;
-        return L;
     }
     return L;
 }
@@ -173,19 +179,7 @@ int searchvalue(lista **L,int value)
     return 1;
 }
 
-int showmeplease(lista *L)
-{cout<<endl;
-    if(isempty(L))
-    {
-        cout<<"Lista vida..."<<endl;
-        return 0;
-    }
-    termen *carrier = new termen;
-    carrier=L->start;
-    int counter=L->length;
-    while (counter>0) { cout<<carrier->info<<" "; carrier=carrier->next;
-        counter--; }
-}
+
 //add-urile sunt facute sa adauge in dreapta respectiv in stanga current-ului, fara a-l modifica. Cu alte cuvinte, daca vreti sa setati current-ul
 // ca fiind elementul adaugat, trebuie facut manual.
 int main()
@@ -197,7 +191,7 @@ int main()
         showmeplease(L);
     }
     L->current = L->finalist;
-    for(int i = 1; i <= 10; i++)
+    for(int i = 1; i <= 9; i++)
     {
         L = delleft(L);
         showmeplease(L);
