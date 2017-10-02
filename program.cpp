@@ -66,18 +66,26 @@ lista *addleft(lista*L, int value)
             new_one->info=value;
             new_one->next=NULL;
             L->length++;
-            L->start=L->current=L->finalist=new_one;
+            L->start= new_one;
+            L->current=new_one;
+            L->finalist=new_one;
         }
         return L;
     }
     if(L->current == L->start)
     {
+
         element *newone = new element;
         newone->info = L->start->info;
         newone->next = L->start->next;
         L->start->info = value;
         L->start->next = newone;
+        L->current = newone;
         L->length++;
+        if(L->start == L->finalist)
+        {
+            L->finalist = L->current;
+        }
         return L;
     }
     termen *carrier = new termen;
@@ -148,18 +156,15 @@ lista *delleft(lista *L)
     {
         if(L->start->next != L->current)
         {
-            //showmeplease(L);
             termen *previous = new termen;
             previous = L->start;
             while(previous->next->next != L->current)
             {
                 previous = previous->next;
             }
-            //showmeplease(L);
             previous->next = NULL;
             previous->next = L->current;
         }
-        //showmeplease(L);
         else if(L->start->next = L->current)
         {
             L->start = NULL;
@@ -187,13 +192,14 @@ int main()
     L=initlist();
     showmeplease(L);
     for (int i = 1; i < 11;i++) {
-        L = addright(L, i);
+        L = addleft(L, i);
         showmeplease(L);
     }
-    L->current = L->finalist;
+    L->current = L->start;
+    //L->current = L->finalist;
     for(int i = 1; i <= 9; i++)
     {
-        L = delleft(L);
+        L = delright(L);
         showmeplease(L);
     }
 }
