@@ -192,14 +192,14 @@ int main()
     L=initlist();
     showmeplease(L);
     for (int i = 1; i < 11;i++) {
-        L = addleft(L, i);
+        L = addright(L, i);
         showmeplease(L);
     }
-    L->current = L->start;
-    //L->current = L->finalist;
+    //L->current = L->start;
+    L->current = L->finalist;
     for(int i = 1; i <= 9; i++)
     {
-        L = delright(L);
+        L = delleft(L);
         showmeplease(L);
     }
 }
