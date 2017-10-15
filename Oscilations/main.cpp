@@ -7,7 +7,7 @@ class oscilator
 {
 private:
     float g = 9.8;
-    float e = 0.71828182;
+    float e = 2.71828182;
 public:
     float x, A0, m, C, fi, w, k;
     int fluid ()
@@ -21,13 +21,12 @@ public:
     }
     int getposx(sf::Time t)
     {
-        x = A0*pow(e, (C * t.asSeconds())/ (m / 2)) * sin(w * t.asSeconds() + fi);
+        x = A0*pow(e, -(C * t.asSeconds())/ (m / 2)) * sin(w * t.asSeconds() + fi);
         return x;
     }
     int getposA(sf::Time t)
     {
-        x = A0*pow(e, (C * t.asSeconds())/ (m / 2)) * sin(w * t.asSeconds() + fi);
-        return (A0*pow(e, (C * t.asSeconds()) / (m / 2) ));
+        return (A0*pow(e, -(C * t.asSeconds()) / (m / 2) ));
     }
 }osc;
 int main()
@@ -59,22 +58,25 @@ int main()
             cout<<"Constanta de elasticitate a resortului: ";cin>>osc.k;
         }
     }
+    int a, b;
+    a = 1921;
+    b = 1080;
     osc.getvariables();
     sf::Time t;
-    sf::RenderWindow window (sf::VideoMode(1080, 501), "Oscilator");
-    sf::RectangleShape line(sf::Vector2f(1, 1));
+    sf::RenderWindow window (sf::VideoMode(a, b), "Oscilator");
+    sf::RectangleShape line(sf::Vector2f(10000, 1));
     sf::RectangleShape pointx(sf::Vector2f(1, 1));
     sf::RectangleShape pointA(sf::Vector2f(1, 1));
-    line.setPosition(0, 251);
+    line.setPosition(0, b/2 + 1);
     pointx.setFillColor(sf::Color::Red);
     pointA.setFillColor(sf::Color::Blue);
     sf::Clock clock;
     while (window.isOpen())
     {
         t = clock.getElapsedTime();
-        pointx.setPosition(t.asMilliseconds() / 75, 251 - osc.getposx(t));
-        pointA.setPosition(t.asMilliseconds() / 75, 251 - osc.getposA(t));
-        line.setPosition(t.asMilliseconds() / 75, 251);
+        pointx.setPosition(t.asMilliseconds() / 75, b/2 + 1 - osc.getposx(t));
+        pointA.setPosition(t.asMilliseconds() / 75, b/2 + 1 - osc.getposA(t));
+        //line.setPosition(t.asMilliseconds() / 75, 251);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -82,7 +84,7 @@ int main()
                 window.close();
         }
         window.draw(line);
-        window.draw(pointA);
+        //window.draw(pointA);
         window.draw(pointx);
         window.display();
     }
