@@ -38,13 +38,17 @@ int main()
     {
         osc.x = 0;
         osc.A0 = 250;
-        osc.m = 3;
-        osc.C = 1;
+        osc.m = 0.3;
+        osc.C = 0.05;
+        osc.fluid();
     }
     else{
-        if(amortizare == "f")
+        if(amortizare == "f-g")
         {
-            osc.fluid();
+            cout<<"Acceleratia gravitationala: ";cin>>osc.k;
+        }
+        else if(amortizare == "f"){
+        osc.fluid();
         }
         cout<<"Elongatia initiala: ";cin>>osc.x;
         cout<<"Amplitudinea initiala: ";cin>>osc.A0;
@@ -62,7 +66,7 @@ int main()
     sf::RectangleShape pointx(sf::Vector2f(1, 1));
     sf::RectangleShape pointA(sf::Vector2f(1, 1));
     line.setPosition(0, 251);
-    line.setFillColor(sf::Color::Red);
+    pointx.setFillColor(sf::Color::Red);
     pointA.setFillColor(sf::Color::Blue);
     sf::Clock clock;
     while (window.isOpen())
