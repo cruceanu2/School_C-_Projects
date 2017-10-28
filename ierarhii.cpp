@@ -10,7 +10,7 @@ typedef struct stermen{
     };
 class List{
 public:
-    int length;
+    int length = 0;
     };
 class Simple: public List{
 public:
@@ -18,6 +18,14 @@ public:
 };
 class SLIFO: public Simple{
 public:
+    int getprev()
+    {
+        current = start;
+        while(current->next != finalist)
+        {
+            current = current->next;
+        }
+    }
     int push(int newvalue)
     {
         if(length == 0)
@@ -36,6 +44,23 @@ public:
         finalist->next = NULL;
         length++;
     }
+    int pop()
+    {
+        if(length == 0)
+        {
+            return 0;
+        }
+        if(length == 1)
+        {
+            delete start;
+            length--;
+            return 0;
+        }
+        getprev();
+        delete finalist;
+        finalist = current;
+        length--;
+    }
     int showlist()
     {
         if(length == 0)
@@ -48,16 +73,71 @@ public:
             cout<<current->value<<" ";
             current = current->next;
         }
+        cout<<endl;
     }
 };
-SLIFO mylist;
+class SFIFO: public Simple{
+public:
+    int push(int newvalue)
+    {
+        if(length == 0)
+        {
+            stermen *morty = new stermen;
+            morty->value = newvalue;
+            start = finalist = morty;
+            length++;
+            return 0;
+        }
+        stermen *morty = new stermen;
+        morty->value = newvalue;
+        current = start;
+        start = morty;
+        morty->next = current;
+        length++;
+    }
+    int pop()
+    {
+       if(length == 0)
+       {
+           return 0;
+       }
+       if(length == 1)
+       {
+           delete start;
+           length--;
+           return 0;
+       }
+       current = start->next;
+       delete start;
+       start = current;
+       length--;
+    }
+    int showlist()
+    {
+        if(length == 0)
+        {
+            return 0;
+        }
+        current = start;
+        for(int i = 1; i <= length; i++)
+        {
+            cout<<current->value<<" ";
+            current = current->next;
+        }
+        cout<<endl;
+    }
+};
 int main()
 {
-    //SLIFO mylist;
+    SLIFO mylist;
     for(int i = 1; i <= 10; i++)
     {
         mylist.push(i);
-        cout<<mylist.length<<" ";
     }
     mylist.showlist();
+    for(int i = 1; i <= 15; i++)
+    {
+        mylist.pop();
+        mylist.showlist();
+    }
 }
