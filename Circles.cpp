@@ -104,4 +104,5 @@ int main()
     mylist.showlist();
     mylist.pop(5);
     mylist.showlist();
+    mylist.pop(11);
 }
