@@ -3,7 +3,7 @@
 using namespace std;
 struct Element{
     int i, j, whereweleftoff;
-    Element *next, *prev;
+    Element *prev;
 };
 struct Stiva{
     int length;
@@ -21,22 +21,22 @@ int push(int a, int b){
         morty->prev = NULL;
         mystack->start = mystack->finish = morty;
         mystack->finish->whereweleftoff = 0;
-        mystack->length++;
+        mystack->length = 1;
         return 0;
     }
     morty->prev = mystack->finish;
-    mystack->finish->next = morty;
     mystack->finish = morty;
     mystack->finish->whereweleftoff = 0;
     mystack->length++;
+    return 0;
 }
 int pop(){
-    if(mystack->length = 0){
+    if(mystack->length == 0){
         return 0;
     }
-    if(mystack->length = 1){    //notat, nu ii place == pentru verificare, da crash
+    if(mystack->length == 1){    //notat, nu ii place == pentru verificare, da crash
         delete mystack->start;
-        mystack->length--;
+        mystack->length = 0;
         return 0;
     }
     Element *morty = new Element;
@@ -44,6 +44,7 @@ int pop(){
     delete mystack->finish;
     mystack->finish = morty;
     mystack->length--;
+    return 0;
 }
 int init(){
   FILE * f;
@@ -57,14 +58,26 @@ int init(){
   }
   mystack->length = 0;
   push(0,0);
-  }
+  cout<<mystack->finish->i+1<<endl;
+  mystack->finish->whereweleftoff = 0;
+  return 0;
 }
 int iterative(){
     while(mystack->length != 0){
         while(mystack->finish->whereweleftoff < n){
-
+          if(m[n*mystack->finish->j + mystack->finish->whereweleftoff] == 1){
+            push(mystack->finish->whereweleftoff, mystack->finish->whereweleftoff);
+            cout<<mystack->finish->i+1<<endl;
+            mystack->finish->whereweleftoff = mystack->finish->j - 1;
+          }
+          mystack->finish->whereweleftoff++;
+        }
+        pop();
+        if(mystack->finish != NULL){
+          mystack->finish->whereweleftoff++;
         }
     }
+    return 0;
 }
 int main(){
     init();
