@@ -44,7 +44,6 @@ void check_more_characters(){
                     holder = morty->value / 10;
                     morty->value %= 10;
                     push(holder);
-                    check_more_characters();
                 }
             }
         if(morty->value > 10){
